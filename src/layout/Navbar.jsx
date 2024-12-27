@@ -11,7 +11,11 @@ export default function Navbar() {
           <img src="/images/logo.png" alt="logo" />
           <h1>EMBER</h1>
         </Logo>
-        <img src="/images/user.png" alt="user" />
+        <img
+          onClick={() => navigate('/calendar')}
+          src="/images/user.png"
+          alt="user"
+        />
       </Nav>
     </Wrapper>
   );
