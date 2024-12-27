@@ -155,7 +155,7 @@ export default function CalendarPage() {
             >
               {item.checked && <CheckMark>✔</CheckMark>}
             </CheckboxWrapper>
-            <ItemText checked={item.checked}>{'체크리스트'}</ItemText>
+            <ItemText checked={item.checked}>{item.programName}</ItemText>
             <RemoveButton onClick={() => {}}>✖</RemoveButton>
           </ItemContainer>
         ))}
@@ -342,8 +342,7 @@ const CheckMark = styled.span`
 const ItemText = styled.span`
   flex: 1;
   margin-left: 12px;
-  color: ${({ checked }) => (checked ? '#818181' : 'white')};
-  text-decoration: ${({ checked }) => (checked ? 'line-through' : 'none')};
+  color: white;
   font-size: 16px;
   transition: color 0.3s ease, text-decoration 0.3s ease;
 `;
