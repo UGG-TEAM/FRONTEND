@@ -2,13 +2,13 @@ import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import styled from 'styled-components';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-
+import { useNavigate } from 'react-router-dom';
 ChartJS.register(ArcElement, Tooltip, ChartDataLabels, Legend);
 
 const ResultPage = () => {
   const chartData = [30, 28, 20, 14, 8];
-  const maxIndex = chartData.indexOf(Math.max(...chartData));
-  const choicedIdx = 3;
+  const choicedIdx = 0;
+  const navigate=useNavigate();
   return (
     <Container>
       <TopBox>
@@ -23,7 +23,7 @@ const ResultPage = () => {
           <DoughnutChart data={chartData} choicedIdx={choicedIdx} />
           <BottomText>
             회원님과 같은 유형에 해당하는
-            <br /> 엠버 유저는 <span>{chartData[maxIndex]}%</span>가 있어요.
+            <br /> 엠버 유저는 <span>{chartData[choicedIdx]}%</span>가 있어요.
           </BottomText>
         </Cont>
       </ContBox>
@@ -50,7 +50,7 @@ const ResultPage = () => {
           </span>
         </Item>
       </ImgBox>
-      <EndBtn>테스트 마치기</EndBtn>
+      <EndBtn onClick={()=>navigate("/")}>테스트 마치기</EndBtn>
     </Container>
   );
 };
@@ -111,6 +111,8 @@ const TopBox = styled.div`
   img {
     width: 160px;
     height: 160px;
+    position:relative;
+    left: 5px;
   }
   div {
     color: white;

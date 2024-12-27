@@ -5,8 +5,8 @@ import Layout from '../layout/Layout';
 import HomePage from '../pages/HomePage';
 import CalendarPage from '../pages/CalendarPage';
 import StartPage from '../pages/test/StartPage';
-import ListPage from '../pages/test/listPage';
 import ResultPage from '../pages/test/ResultPage';
+import ListPage2 from '../pages/test/ListPage2';
 const Routes = () => {
   return (
     <ReactRouters>
@@ -14,7 +14,7 @@ const Routes = () => {
         <Route path="" element={<HomePage />} />
         <Route path="calendar" element={<CalendarPage />} />
         <Route path="/test/start" element={<StartPage />} />
-        <Route path="/test/list" element={<ListPage />} />
+        <Route path="/test/list" element={<ListPage2 />} />
         <Route path="/test/result" element={<ResultPage />} />
       </Route>
     </ReactRouters>
