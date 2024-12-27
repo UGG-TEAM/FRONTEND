@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 export default function HashTags({ hashtag }) {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
   console.log(hashtag);
 
   const handleToggle = () => {
@@ -21,7 +23,9 @@ export default function HashTags({ hashtag }) {
       <Details $isOpen={isOpen}>
         <p>{hashtag.content}</p>
       </Details>
-      <Button $isOpen={isOpen}>바로가기</Button>
+      <Button onClick={() => navigate('/calendar')} $isOpen={isOpen}>
+        바로가기
+      </Button>
     </Wrapper>
   );
 }
