@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Calendar from 'react-calendar';
 import styled from 'styled-components';
 import 'react-calendar/dist/Calendar.css';
+import axiosInstance from '../apis/axiosInstance';
 
 export default function CalendarPage() {
   const [date, setDate] = useState(new Date());
@@ -53,6 +54,16 @@ export default function CalendarPage() {
 
   const onDateClick = (date) => {
     //get
+    axiosInstance
+      .post(
+        `/api/checkList/checklistdate?monthDay=${
+          '--' + (date.getMonth() + 1) + '-' + date.getDate()
+        }`
+      )
+      .then((res) => {
+        setCheckList(res.data);
+      });
+
     setDate(date); // 선택된 날짜 변경
   };
 

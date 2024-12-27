@@ -1,8 +1,18 @@
 import styled from 'styled-components';
 import MainCard from '../components/homePage/MainCard';
 import HashTags from '../components/homePage/HashTags';
+import axiosInstance from '../apis/axiosInstance';
+import { useQuery } from '@tanstack/react-query';
 
 export default function HomePage() {
+  const { data, error, isLoading, isError } = useQuery({
+    querykey: ['home'],
+    queryFn: () =>
+      axiosInstance.get().then((res) => {
+        return res.data;
+      }),
+  });
+
   return (
     <PageWrapper>
       <MainCard />
