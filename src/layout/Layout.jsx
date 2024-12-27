@@ -1,5 +1,4 @@
 import Header from './Navbar';
-import Footer from './Footer';
 import { Outlet } from 'react-router-dom';
 import { MainContainer } from '../styles/MainContainer';
 export default function Layout() {
@@ -9,7 +8,6 @@ export default function Layout() {
       <MainContainer>
         <Outlet />
       </MainContainer>
-      <Footer />
     </>
   );
 }
