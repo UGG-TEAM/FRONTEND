@@ -18,7 +18,7 @@ const QusData = [
   'additional_support',
 ];
 
-const ListPage = () => {
+const ListPage2 = () => {
   const [answers, setAnswers] = useState([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { page, nextPage } = listStore();
@@ -89,7 +89,7 @@ const ListPage = () => {
   );
 };
 
-export default ListPage;
+export default ListPage2;
 
 // Styled Components
 const Container = styled.div`
