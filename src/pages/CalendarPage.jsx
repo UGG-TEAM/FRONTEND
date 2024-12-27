@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
 import styled from 'styled-components';
 import 'react-calendar/dist/Calendar.css';
@@ -6,7 +6,8 @@ import axiosInstance from '../apis/axiosInstance';
 
 export default function CalendarPage() {
   const [date, setDate] = useState(new Date());
-  const [selected, setSelected] = useState('noncheck'); // 'noncheck' or 'check'
+  const [selected, setSelected] = useState('check'); // 기본값을 'check'로 설정
+  const [achievedDates, setAchievedDates] = useState([]);
   const [checkList, setCheckList] = useState([
     {
       id: 1,
@@ -24,15 +25,26 @@ export default function CalendarPage() {
       id: 3,
       programId: 1,
       programName: '체크리스트',
-      checked: false,
+      checked: true,
     },
     {
       id: 4,
       programId: 1,
       programName: '체크리스트',
-      checked: false,
+      checked: true,
     },
   ]);
+
+  const tileContent = ({ date, view }) => {
+    if (view === 'month') {
+      const formattedDate = `--${String(date.getMonth() + 1).padStart(
+        2,
+        '0'
+      )}-${String(date.getDate()).padStart(2, '0')}`;
+    }
+    return null;
+  };
+
   const handleCheckboxToggle = (id) => {
     setCheckList((prevList) =>
       prevList.map((item) =>
@@ -41,10 +53,43 @@ export default function CalendarPage() {
     );
   };
 
-  const getTileClassName = ({ date }) => {
-    const day = date.getDay(); // 요일 가져오기 (0: 일요일, 6: 토요일)
-    if (day === 0) return 'saturday'; // 토요일
-    if (day === 1) return 'sunday'; // 일요일
+  useEffect(() => {
+    axiosInstance.get('/api/checklist/checklistall').then((res) => {
+      const achieved = res.data.result
+        .filter((item) => item.checked)
+        .map((item) => item.date);
+      setAchievedDates(achieved);
+    });
+  }, []);
+
+  useEffect(() => {
+    // 초기 체크리스트 데이터 가져오기
+    axiosInstance
+      .post(
+        `/api/checklist/checklistdate?monthDay=${
+          '--' + (date.getMonth() + 1) + '-' + date.getDate()
+        }`
+      )
+      .then((res) => {
+        setCheckList(res.data.result);
+      });
+  }, [date]);
+
+  console.log(achievedDates);
+
+  const getTileClassName = ({ date, view }) => {
+    if (view === 'month') {
+      const formattedDate = `--${String(date.getMonth() + 1).padStart(
+        2,
+        '0'
+      )}-${String(date.getDate()).padStart(2, '0')}`;
+      if (achievedDates.includes(formattedDate)) {
+        return 'achieved-date'; // 달성된 날짜에 클래스 추가
+      }
+    }
+    const day = date.getDay(); // 요일 가져오기
+    if (day === 0) return 'sunday';
+    if (day === 6) return 'saturday';
     return '';
   };
 
@@ -53,19 +98,23 @@ export default function CalendarPage() {
   };
 
   const onDateClick = (date) => {
-    //get
     axiosInstance
       .post(
-        `/api/checkList/checklistdate?monthDay=${
+        `/api/checklist/checklistdate?monthDay=${
           '--' + (date.getMonth() + 1) + '-' + date.getDate()
         }`
       )
       .then((res) => {
-        setCheckList(res.data);
+        setCheckList(res.data.result);
       });
 
     setDate(date); // 선택된 날짜 변경
   };
+
+  // 필터링된 체크리스트 데이터
+  const filteredCheckList = checkList.filter(
+    (item) => item.checked === (selected === 'check')
+  );
 
   return (
     <CalendarWrapper>
@@ -79,6 +128,7 @@ export default function CalendarPage() {
         formatDay={(locale, date) =>
           date.toLocaleString('en', { day: 'numeric' })
         }
+        tileContent={tileContent}
         tileClassName={getTileClassName} // 요일에 따른 클래스 추가
       />
       <CheckList>
@@ -97,7 +147,7 @@ export default function CalendarPage() {
             달성
           </Check>
         </CheckOrNot>
-        {checkList.map((item) => (
+        {filteredCheckList.map((item) => (
           <ItemContainer key={item.id}>
             <CheckboxWrapper
               onClick={() => handleCheckboxToggle(item.id)}
@@ -115,6 +165,7 @@ export default function CalendarPage() {
 }
 
 const CalendarWrapper = styled.div`
+  height: 100dvh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -128,6 +179,14 @@ const CalendarWrapper = styled.div`
     width: 350px;
     max-width: 100%;
     font-family: Arial, sans-serif;
+  }
+
+  .react-calendar__tile.achieved-date {
+    background-image: url('/images/fire.png'); /* 이미지 경로 */
+    background-size: 20px, 20px; /* 이미지가 전체 타일을 덮도록 설정 */
+    background-position: center; /* 중앙에 배치 */
+    background-repeat: no-repeat; /* 반복 금지 */
+    color: white; /* 텍스트 색상 설정 (필요 시) */
   }
 
   .react-calendar__navigation {
@@ -170,6 +229,8 @@ const CalendarWrapper = styled.div`
     transition: background-color 0.3s ease;
     width: 36px;
     height: 50px;
+    text-shadow: -1px -1px 0px black, /* 좌상 */ 1px -1px 0px black,
+      /* 우상 */ -1px 1px 0px black, /* 좌하 */ 1px 1px 0px black; /* 우하 */
   }
 
   .react-calendar__tile--now {
