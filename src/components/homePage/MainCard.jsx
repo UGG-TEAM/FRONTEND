@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 const MainCard = () => {
-  const [isTestCompleted, setIsTestCompleted] = useState(true);
+  const [isTestCompleted, setIsTestCompleted] = useState(false);
+
   const renderData = !isTestCompleted ? (
     <Container>
       <h1>잃어버린 도전과 열정을 되찾아 보세요!</h1>
@@ -26,10 +27,13 @@ const MainCard = () => {
       </button>
     </OuterBox>
   );
-  return <div>{renderData}</div>;
+
+  return renderData;
 };
 
 const Container = styled.div`
+  width: 90%;
+  box-sizing: border-box;
   border: 1px solid #fe6e6e;
   display: flex;
   flex-direction: column;
@@ -57,6 +61,7 @@ const Container = styled.div`
 `;
 
 const OuterBox = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: start;
