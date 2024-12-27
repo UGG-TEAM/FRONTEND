@@ -1,13 +1,17 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 const MainCard = () => {
-  const [isTestCompleted, setIsTestCompleted] = useState(true);
-
+  const [isTestCompleted, setIsTestCompleted] = useState(false);
+  const navigate = useNavigate();
+  const moveToTest = () => {
+    navigate('/test/start');
+  };
   const renderData = !isTestCompleted ? (
     <Container>
       <h1>잃어버린 도전과 열정을 되찾아 보세요!</h1>
       <p>테스트 결과를 통해 내게 꼭 필요한 정보들을 알려줘요.</p>
-      <button>되찾으러 가기</button>
+      <button onClick={moveToTest}>되찾으러 가기</button>
     </Container>
   ) : (
     <OuterBox>
@@ -42,8 +46,9 @@ const Container = styled.div`
   border-radius: 12px;
   color: #ffffff;
   h1 {
-    font-size: 1rem;
     margin: 0%;
+    font-size: 18px;
+    font-weight: 600;
   }
   p {
     font-size: 0.8rem;
@@ -70,8 +75,9 @@ const OuterBox = styled.div`
   color: #ffffff;
 
   h1 {
-    font-size: 1rem;
     margin: 0%;
+    font-size: 18px;
+    font-weight: 600;
   }
   button {
     display: flex;
