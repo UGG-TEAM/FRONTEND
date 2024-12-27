@@ -8,13 +8,15 @@ ChartJS.register(ArcElement, Tooltip, ChartDataLabels, Legend);
 const ResultPage = () => {
   const chartData = [30, 28, 20, 14, 8];
   const choicedIdx = 0;
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   return (
     <Container>
       <TopBox>
         <img src="../../../public/images/resultImg.png" />
         <div>
-          당신은 <span>외로움</span>을 많이 겪고 있군요
+          당신은 오랜 시간 <span>혼자만의 공간</span>에서
+          <br />
+          <span>많은 상처</span>를 안고 살아왔군요
         </div>
       </TopBox>
       <ContBox>
@@ -29,11 +31,24 @@ const ResultPage = () => {
       </ContBox>
       <ContBox>
         <Tag>#유형 상세 분석</Tag>
-        <Cont></Cont>
+        <Cont className="detail">
+          <div>
+            {'->'} 일상에서 무기력함을 느끼며 집 밖으로 나가는 일이 힘들었을
+            수도 있어요.
+          </div>
+          <div>
+            {'->'} 그럴 때일수록 스스로를 몰아세우기보다, 충분히 쉬며 에너지를
+            채우는게 중요하답니다.
+          </div>
+          <div>
+            {'->'} 작은 연결부터 시작해 조금씩 따뜻한 관계를 만들어갈 수 있기를
+            응원합니다.
+          </div>
+        </Cont>
       </ContBox>
       <ContBox>
         <Tag>#추천 활동</Tag>
-        <Cont>sf</Cont>
+        <Cont>회원님에게 딱 맞는 [심리상담] 활동을 추천드립니다.</Cont>
       </ContBox>
       <ImgBox>
         <Item $imgSrc="../../../public/images/imgsrc1.png">
@@ -50,7 +65,7 @@ const ResultPage = () => {
           </span>
         </Item>
       </ImgBox>
-      <EndBtn onClick={()=>navigate("/")}>테스트 마치기</EndBtn>
+      <EndBtn onClick={() => navigate('/')}>테스트 마치기</EndBtn>
     </Container>
   );
 };
@@ -111,7 +126,7 @@ const TopBox = styled.div`
   img {
     width: 160px;
     height: 160px;
-    position:relative;
+    position: relative;
     left: 5px;
   }
   div {
@@ -129,6 +144,11 @@ const ContBox = styled.div`
   align-items: start;
   gap: 12px;
   margin-top: 32px;
+  .detail {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
 `;
 
 const Tag = styled.span`
@@ -150,6 +170,8 @@ const Cont = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  color: white;
+  font-size: 0.8rem;
 `;
 
 const ChartContainer = styled.div`
