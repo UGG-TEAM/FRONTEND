@@ -11,6 +11,9 @@ export default function HashTags() {
 
 const Wrapper = styled.div`
   border: 1px solid #fff5a0;
+  padding: 16px 12px;
+  border-radius: 12px;
+  width: 80%;
 
   h2 {
     font-size: 15px;

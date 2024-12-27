@@ -18,6 +18,7 @@ export default function Navbar() {
 }
 
 const Wrapper = styled.header`
+  position: fixed;
   height: 72px;
   width: 100%;
   background-color: black;
