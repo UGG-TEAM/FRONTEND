@@ -51,6 +51,7 @@ const Container = styled.div`
     margin-top: 12px;
   }
   button {
+    color: white;
     width: 100%;
     border-radius: 12px;
     background-color: #fe6e6e;
