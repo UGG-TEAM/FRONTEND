@@ -12,6 +12,8 @@ export default function HomePage() {
         <HashTags />
         <HashTags />
         <HashTags />
+        <HashTags />
+        <HashTags />
       </HashTagWrapper>
     </PageWrapper>
   );
