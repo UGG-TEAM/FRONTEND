@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 const MainCard = () => {
-  const [isTestCompleted, setIsTestCompleted] = useState(false);
+  const [isTestCompleted, setIsTestCompleted] = useState(true);
 
   const renderData = !isTestCompleted ? (
     <Container>
@@ -62,7 +62,7 @@ const Container = styled.div`
 `;
 
 const OuterBox = styled.div`
-  width: 100%;
+  width: 90%;
   display: flex;
   flex-direction: column;
   align-items: start;
