@@ -1,6 +1,14 @@
+import { Doughnut } from 'react-chartjs-2';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import styled from 'styled-components';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+
+ChartJS.register(ArcElement, Tooltip, ChartDataLabels, Legend);
 
 const ResultPage = () => {
+  const chartData = [30, 28, 20, 14, 8];
+  const maxIndex = chartData.indexOf(Math.max(...chartData));
+  const choicedIdx = 3;
   return (
     <Container>
       <TopBox>
@@ -11,7 +19,13 @@ const ResultPage = () => {
       </TopBox>
       <ContBox>
         <Tag>#당신의 유형</Tag>
-        <Cont></Cont>
+        <Cont>
+          <DoughnutChart data={chartData} choicedIdx={choicedIdx} />
+          <BottomText>
+            회원님과 같은 유형에 해당하는
+            <br /> 엠버 유저는 <span>{chartData[maxIndex]}%</span>가 있어요.
+          </BottomText>
+        </Cont>
       </ContBox>
       <ContBox>
         <Tag>#유형 상세 분석</Tag>
@@ -38,6 +52,51 @@ const ResultPage = () => {
       </ImgBox>
       <EndBtn>테스트 마치기</EndBtn>
     </Container>
+  );
+};
+
+const DoughnutChart = ({ data, choicedIdx }) => {
+  const backgroundColors = data.map((_, index) =>
+    index === choicedIdx ? '#FE6E6E' : '#2C2C2C'
+  );
+
+  const chartData = {
+    labels: ['Type 1', 'Type 2', 'Type 3', 'Type 4'],
+    datasets: [
+      {
+        data: data,
+        backgroundColor: backgroundColors,
+        borderWidth: 0,
+      },
+    ],
+  };
+
+  const options = {
+    plugins: {
+      legend: {
+        display: false,
+      },
+      datalabels: {
+        display: true,
+        formatter: (value, context) => {
+          const data = context.chart.data.datasets[0].data;
+          const index = context.dataIndex;
+          return index === choicedIdx ? `${Math.round(value)}%` : '';
+        },
+        color: '#fff',
+        font: {
+          size: 14,
+        },
+      },
+    },
+    cutout: '0',
+  };
+
+  return (
+    <ChartContainer>
+      <Doughnut data={chartData} options={options} />
+      <CenterText></CenterText>
+    </ChartContainer>
   );
 };
 
@@ -69,6 +128,7 @@ const ContBox = styled.div`
   gap: 12px;
   margin-top: 32px;
 `;
+
 const Tag = styled.span`
   display: inline-block;
   padding: 6px 12px 4px 12px;
@@ -76,17 +136,51 @@ const Tag = styled.span`
   border-radius: 100px;
   color: white;
 `;
+
 const Cont = styled.div`
   border-radius: 12px;
   border: 1px solid #fe6e6e;
-  height: 200px;
   width: 100%;
-  background-color: #4c4c4c;
+  background-color: #2e2e2e;
   padding: 24px 12px;
   box-sizing: border-box;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+`;
+
+const ChartContainer = styled.div`
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  border: 1px solid #4c4c4c;
+  border-radius: 50%;
+  box-shadow: 0px 7px 15px rgba(0, 0, 0, 0.5);
+`;
+
+const CenterText = styled.div`
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  font-size: 20px; /* 텍스트 크기 조정 */
+  font-weight: bold;
+`;
+
+const BottomText = styled.div`
+  text-align: center;
+  font-size: 12px;
+  color: white;
+
+  span {
+    color: #fe6e6e;
+    font-weight: bold;
+  }
 `;
 
 const ImgBox = styled.div`

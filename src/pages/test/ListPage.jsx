@@ -4,6 +4,20 @@ import datas from '../../constant/testData';
 import Progressbar from './Progressbar';
 import listStore from '../../store/listStore';
 import { useNavigate } from 'react-router-dom';
+import { postData } from '../../apis/test/apis';
+const QusData = [
+  'most_needed',
+  'needed_help_field',
+  'residence_area',
+  'program_method',
+  'participation_period',
+  'current_activity',
+  'activity_type',
+  'learning_method',
+  'expected_result',
+  'additional_support',
+];
+
 const ListPage = () => {
   const [answers, setAnswers] = useState([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -27,18 +41,17 @@ const ListPage = () => {
   };
   useEffect(() => {
     if (answers.length === 10) {
-      // const sendData = {
-      //   creatorName: localStorage.getItem('name'),
-      //   answers: answers,
-      // };
+      const sendData = { user_id: 0 };
 
-      // const url = isQuizResponder ? `${uuid}/submission` : '';
-      // const dest = isQuizResponder ? `/score/${uuid}` : '/url';
-      // (async () => {
-      //   await postData(url, sendData);
-      //   navigate(dest);
-      // })();
-      navigate('/test/result');
+      QusData.forEach((key, index) => {
+        sendData[key] = answers[index]?.answer || null;
+      });
+      console.log(sendData);
+
+      (async () => {
+        await postData(sendData);
+        navigate('/test/result');
+      })();
     }
   }, [answers]);
   return (
