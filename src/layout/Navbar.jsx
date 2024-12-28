@@ -22,6 +22,7 @@ export default function Navbar() {
 }
 
 const Wrapper = styled.header`
+  z-index: 100;
   position: fixed;
   height: 72px;
   width: 100%;

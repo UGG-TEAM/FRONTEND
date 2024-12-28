@@ -23,7 +23,10 @@ export default function HashTags({ hashtag }) {
       <Details $isOpen={isOpen}>
         <p>{hashtag.content}</p>
       </Details>
-      <Button onClick={() => navigate('/calendar')} $isOpen={isOpen}>
+      <Button
+        onClick={() => (window.location.href = 'https://www.pie-edu.com')}
+        $isOpen={isOpen}
+      >
         바로가기
       </Button>
     </Wrapper>
